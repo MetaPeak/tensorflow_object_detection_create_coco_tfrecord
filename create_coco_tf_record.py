@@ -77,7 +77,7 @@ def load_coco_dection_dataset(imgs_dir, annotations_filepath, shuffle_img = True
         for ann in anns:
             bboxes_data = ann['bbox']
             bboxes_data = [bboxes_data[0]/float(pic_width), bboxes_data[1]/float(pic_height),\
-                                  bboxes_data[2]/float(pic_width), bboxes_data[3]/float(pic_height)]
+                                  (bboxes_data[0]+bboxes_data[2])/float(pic_width), (bboxes_data[1]+bboxes_data[3])/float(pic_height)]
                          # the format of coco bounding boxs is [Xmin, Ymin, width, height]
             bboxes.append(bboxes_data)
             labels.append(ann['category_id'])
