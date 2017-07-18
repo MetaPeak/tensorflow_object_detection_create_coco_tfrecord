@@ -1,4 +1,4 @@
-r"""Convert raw Microsoft COCO dataset to TFRecord for object_detection.
+"""Convert raw Microsoft COCO dataset to TFRecord for object_detection.
 Attention Please!!!
 
 1)For easy use of this script, Your coco dataset directory struture should like this :
@@ -15,7 +15,7 @@ or add the pycocotools path to  PYTHONPATH of ~/.bashrc file.
 Example usage:
     python create_coco_tf_record.py --data_dir=/path/to/your/coco/root/directory \
         --set=train \
-        --output_path=/where/you/want/to/save/pascal.record
+        --output_path=/where/you/want/to/save/coco.record
         --shuffle_imgs=True
 """
 
@@ -35,7 +35,7 @@ from object_detection.utils import dataset_util
 flags = tf.app.flags
 flags.DEFINE_string('data_dir', '', 'Root directory to raw Microsoft COCO dataset.')
 flags.DEFINE_string('set', 'train', 'Convert training set or validation set')
-flags.DEFINE_string('output_filepath', '', 'Path to output TFRecord')
+flags.DEFINE_string('output_path', '', 'Path to output TFRecord')
 flags.DEFINE_bool('shuffle_imgs',True,'whether to shuffle images of coco')
 FLAGS = flags.FLAGS
 
@@ -140,7 +140,7 @@ def main(_):
     coco_data = load_coco_dection_dataset(imgs_dir,annotations_filepath,shuffle_img=FLAGS.shuffle_imgs)
     total_imgs = len(coco_data)
     # write coco data to tf record
-    with tf.python_io.TFRecordWriter(FLAGS.output_filepath) as tfrecord_writer:
+    with tf.python_io.TFRecordWriter(FLAGS.output_path) as tfrecord_writer:
         for index, img_data in enumerate(coco_data):
             if index % 100 == 0:
                 print("Converting images: %d / %d" % (index, total_imgs))
