@@ -1,4 +1,4 @@
-r"""Convert raw Microsoft COCO dataset to TFRecord for object_detection.
+"""Convert raw Microsoft COCO dataset to TFRecord for object_detection.
 Attention Please!!!
 
 1)For easy use of this script, Your coco dataset directory struture should like this :
@@ -15,7 +15,7 @@ or add the pycocotools path to  PYTHONPATH of ~/.bashrc file.
 Example usage:
     python create_coco_tf_record.py --data_dir=/path/to/your/coco/root/directory \
         --set=train \
-        --output_path=/where/you/want/to/save/pascal.record
+        --output_filepath=/where/you/want/to/save/pascal.record
         --shuffle_imgs=True
 """
 
