@@ -19,6 +19,6 @@ or add the pycocotools path to  PYTHONPATH of ~/.bashrc file.
 ```
     python create_coco_tf_record.py --data_dir=/path/to/your/coco/root/directory \
         --set=train \
-        --output_path=/where/you/want/to/save/pascal.record
+        --output_filepath=/where/you/want/to/save/pascal.record
         --shuffle_imgs=True
 ```
