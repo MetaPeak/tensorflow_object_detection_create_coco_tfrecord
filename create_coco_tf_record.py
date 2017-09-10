@@ -40,7 +40,7 @@ flags.DEFINE_bool('shuffle_imgs',True,'whether to shuffle images of coco')
 FLAGS = flags.FLAGS
 
 
-def load_coco_dection_dataset(imgs_dir, annotations_filepath, shuffle_img = True ):
+def load_coco_dection_dataset(imgs_dir, coco, shuffle_img = True ):
     """Load data from dataset by pycocotools. This tools can be download from "http://mscoco.org/dataset/#download"
     Args:
         imgs_dir: directories of coco images
@@ -49,7 +49,7 @@ def load_coco_dection_dataset(imgs_dir, annotations_filepath, shuffle_img = True
     Return:
         coco_data: list of dictionary format information of each image
     """
-    coco = COCO(annotations_filepath)
+    # coco = COCO(annotations_filepath)
     img_ids = coco.getImgIds() # totally 82783 images
     cat_ids = coco.getCatIds() # totally 90 catagories, however, the number of categories is not continuous, \
                                # [0,12,26,29,30,45,66,68,69,71,83] are missing, this is the problem of coco dataset.
@@ -137,15 +137,19 @@ def main(_):
     else:
         raise ValueError("you must either convert train data or val data")
     # load total coco data
-    coco_data = load_coco_dection_dataset(imgs_dir,annotations_filepath,shuffle_img=FLAGS.shuffle_imgs)
-    total_imgs = len(coco_data)
-    # write coco data to tf record
-    with tf.python_io.TFRecordWriter(FLAGS.output_filepath) as tfrecord_writer:
-        for index, img_data in enumerate(coco_data):
-            if index % 100 == 0:
-                print("Converting images: %d / %d" % (index, total_imgs))
-            example = dict_to_coco_example(img_data)
-            tfrecord_writer.write(example.SerializeToString())
+    coco = COCO(annotations_filepath)
+    tfrecord_writer = tf.python_io.TFRecordWriter(FLAGS.output_filepath)
+    for i in range(41):
+	    coco_data = load_coco_dection_dataset(imgs_dir,coco,shuffle_img=FLAGS.shuffle_imgs)
+	    total_imgs = len(coco_data)		
+		# tfrecord_writer = tf.python_io.TFRecordWriter(FLAGS.output_filepath)
+		# write coco data to tf record
+	    # with tf.python_io.TFRecordWriter(FLAGS.output_filepath) as tfrecord_writer:
+	    for index, img_data in enumerate(coco_data):
+	        if index % 100 == 0:
+	            print("Converting images: %d / %d" % (index, total_imgs))
+	        example = dict_to_coco_example(img_data)
+	        tfrecord_writer.write(example.SerializeToString())
 
 
 if __name__ == "__main__":
