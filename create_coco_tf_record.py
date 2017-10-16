@@ -61,7 +61,6 @@ def load_coco_dection_dataset(imgs_dir, annotations_filepath, shuffle_img = True
 
     nb_imgs = len(img_ids)
     for index, img_id in enumerate(img_ids):
-        if index > 2000:break
         if index % 100 == 0:
             print("Readling images: %d / %d "%(index, nb_imgs))
         img_info = {}
